@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Data Ghost</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+	<h1>Compare two input strings</h1>
+	<h4><i>Plug in your own python comparator – coming soon</i></h4>
+	{% if tasks|length < 1 %}
+		<h4>Compare your texts below!</h4>
+	{% else %}
+	<table>
+		<thead>
+			<tr>
+				<th>Result</th>
+				<th>Added</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for task in tasks %}
+				<tr>
+					<td>{{ task.content }}</td>
+					<td>{{ task.date_created.date() }}</td>
+					<td>
+						<a href="/delete/{{task.id}}">Delete</a>
+						<br>
+						<a href="/update/{{task.id}}">Update</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+	<form class="form" action="/" method="POST">
+		<div style='text-align: center;'>
+			<div class="inline-div">
+				<p style='text-align: center;'>Text 1</p>
+				<textarea rows="25" cols="60" type="text" name="input-text1" class="inline-text-area1"></textarea>
+			</div>
+			<div class="inline-div">
+				<p style='text-align: center;'>Text 2</p>
+				<textarea rows="25" cols="60" type="text" name="input-text2" id="inline-text-area2"></textarea>
+			</div>
+			<br>
+			<br>
+			<input type="submit" value="Calculate!">
+		</div>
+	</form>
+	
+</div>
+{% endblock %}
