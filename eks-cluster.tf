@@ -44,6 +44,10 @@ resource "aws_security_group" "ghost-cluster" {
   }
 }
 
+
+
+
+
 resource "aws_eks_cluster" "ghost" {
   name            = "${var.cluster-name}"
   role_arn        = "${aws_iam_role.ghost-cluster.arn}"
@@ -59,6 +63,8 @@ resource "aws_eks_cluster" "ghost" {
   ]
 }
 
+
+
 resource "aws_security_group_rule" "ghost-cluster-ingress-node-https" {
   description              = "Allow pods to communicate with the cluster API Server"
   from_port                = 443
@@ -69,16 +75,13 @@ resource "aws_security_group_rule" "ghost-cluster-ingress-node-https" {
   type                     = "ingress"
 }
 
-# OPTIONAL: Allow inbound traffic from your local workstation external IP
-#           to the Kubernetes. You will need to replace A.B.C.D below with
-#           your real IP. Services like icanhazip.com can help you find this.
-# resource "aws_security_group_rule" "ghost-cluster-ingress-workstation-https" {
-#   cidr_blocks       = ["A.B.C.D/32"]
-#   description       = "Allow workstation to communicate with the cluster API Server"
-#   from_port         = 443
-#   protocol          = "tcp"
-#   security_group_id = "${aws_security_group.ghost-cluster.id}"
-#   to_port           = 443
-#   type              = "ingress"
-# }
+resource "aws_security_group_rule" "ghost-cluster-ingress-workstation-https" {
+  cidr_blocks       = ["192.168.128.76/32"]
+  description       = "Allow workstation to communicate with the cluster API Server"
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = "${aws_security_group.ghost-cluster.id}"
+  to_port           = 443
+  type              = "ingress"
+}
 
