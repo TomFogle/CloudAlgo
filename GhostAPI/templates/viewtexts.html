@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>View Texts</title>
+{% endblock %}
+
+{% block body %}
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+</script>
+
+<div class="content" style="text-align: center;">
+	<div class="inline-div">
+		<p style='text-align: center;'>Text 1</p>
+		<div class="textbox">
+			{{result_to_view.text1}}
+		</div>
+	</div>
+	<div class="inline-div">
+		<p style='text-align: center;'>Text 2</p>
+		<div class="textbox">
+			{{result_to_view.text2}}
+		</div>
+	</div>
+	<br>
+	<br>
+	<button class="back-button" onclick="back()">Back</button>
+</div>
+{% endblock %}

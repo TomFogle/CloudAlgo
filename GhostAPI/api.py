@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+import textdistance
 
 # reminder to self to launch env: source env/bin/activate
 
@@ -10,49 +10,61 @@ db = SQLAlchemy(app)
 
 class Todo(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	content = db.Column(db.String(200), nullable=False)
-	date_created = db.Column(db.DateTime, default=datetime.utcnow)
+	method_name = db.Column(db.String(12), nullable=False)
+	distance = db.Column(db.String(10), nullable=False)
+	similarity = db.Column(db.String(10), nullable=False)
+	maximum = db.Column(db.String(10), nullable=False)
+	norm_dist = db.Column(db.String(10), nullable=False)
+	norm_sum = db.Column(db.String(10), nullable=False)
+	text1 = db.Column(db.String(255), nullable=False)
+	text2 = db.Column(db.String(255), nullable=False)
 
 	def __repr__(self):
-		return '<Task %r>' % self.id
-
-def basic_similarity(text1, text2):
-	clean_text1 = ""
-	clean_text2 = ""
-
-	for i in range(len(text1)):
-		if text1[i].isalpha() or text1[i].isspace():
-			clean_text1 += text1[i]
-
-	for i in range(len(text2)):
-		if text2[i].isalpha() or text2[i].isspace():
-			clean_text2 += text2[i]
-
-	text1_split = clean_text1.split(" ")
-	text2_split = clean_text2.split(" ")
-	text1_set = set()
-	denominator = (len(text1_split) + len(text2_split))/2 + 1
-	numerator = 0
-
-	for i in range(len(text1_split)):
-		text1_set.add(text1_split[i])
-
-	for i in range(len(text2_split)):
-		if text2_split[i] in text1_set:
-			numerator += 1
-
-	return numerator/denominator
-
+		return '<result %r>' % self.id
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
 	if request.method == 'POST':
 		text1 = request.form['input-text1']
 		text2 = request.form['input-text2']
+		comp_method = request.form['option']
+		distance = -69
+		similarity = -69
+		maximum = -69
+		norm_dist = -69
+		norm_sum = -69
+		
 
-		similarity = basic_similarity(text1, text2)
+		if (comp_method == "Jaro"):
+			method_name = "Jaro"
+			distance = str(round(textdistance.jaro.distance(text1,text2),2))
+			similarity = str(round(textdistance.jaro.similarity(text1,text2),2))
+			maximum = str(round(textdistance.jaro.maximum(text1,text2),2))
+			norm_dist = str(round(textdistance.jaro.normalized_distance(text1,text2),2))
+			norm_sum = str(round(textdistance.jaro.normalized_similarity(text1,text2),2))
+		elif (comp_method == "Hamming"):
+			method_name = "Hamming"
+			distance = str(round(textdistance.hamming.distance(text1,text2),2))
+			similarity = str(round(textdistance.hamming.similarity(text1,text2),2))
+			maximum = str(round(textdistance.hamming.maximum(text1,text2),2))
+			norm_dist = str(round(textdistance.hamming.normalized_distance(text1,text2),2))
+			norm_sum = str(round(textdistance.hamming.normalized_similarity(text1,text2),2))
+		else:
+			method_name = "Levenshtein"
+			distance = str(round(textdistance.levenshtein.distance(text1,text2),2))
+			similarity = str(round(textdistance.levenshtein.similarity(text1,text2),2))
+			maximum = str(round(textdistance.levenshtein.maximum(text1,text2),2))
+			norm_dist = str(round(textdistance.levenshtein.normalized_distance(text1,text2),2))
+			norm_sum = str(round(textdistance.levenshtein.normalized_similarity(text1,text2),2))
 
-		new_task = Todo(content=similarity)
+		new_task = Todo(method_name=method_name,
+						distance=distance,
+						similarity=similarity,
+						maximum=maximum,
+						norm_dist=norm_dist,
+						norm_sum=norm_sum,
+						text1=text1,
+						text2=text2)
 
 		try:
 			db.session.add(new_task)
@@ -62,37 +74,30 @@ def index():
 			return 'There was an issue adding your task'
 
 	else:
-		tasks = Todo.query.order_by(Todo.date_created).all()
-		return render_template('index.html', tasks=tasks)
+		results = Todo.query.order_by(Todo.method_name).all()
+		return render_template('index.html', results=results)
+
+
+@app.route('/viewtexts/<int:id>', methods=['POST', 'GET'])
+def viewtexts(id):
+	result_to_view = Todo.query.get_or_404(id)
+
+	if request.method == 'POST':
+		return redirect('/')
+	else:
+		return render_template('viewtexts.html', result_to_view=result_to_view)
 
 
 @app.route('/delete/<int:id>')
 def delete(id):
-	task_to_delete = Todo.query.get_or_404(id)
+	result_to_delete = Todo.query.get_or_404(id)
 
 	try:
-		db.session.delete(task_to_delete)
+		db.session.delete(result_to_delete)
 		db.session.commit()
 		return redirect('/')
 	except:
 		return 'There was a problem deleting that task'
-
-
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
-	task = Todo.query.get_or_404(id)
-
-	if request.method == 'POST':
-		task.content = request.form['content']
-
-		try:
-			db.session.commit()
-			return redirect('/')
-		except:
-			return 'There was an issue updating your task'
-	else:
-		return render_template('update.html', task=task)
-
 
 if __name__ == "__main__":
 	# app.run(debug=True)

@@ -8,30 +8,41 @@
 <div class="content">
 	<h1>Compare two input strings</h1>
 	<h4><i>Plug in your own python comparator – coming soon</i></h4>
-	{% if tasks|length < 1 %}
+	{% if results|length < 1 %}
 		<h4>Compare your texts below!</h4>
 	{% else %}
-	<table>
+	<table class="fixed_header">
 		<thead>
 			<tr>
-				<th>Result</th>
-				<th>Added</th>
-				<th>Actions</th>
+				<th>Method Name</th>
+				<th>Distance</th>
+				<th>Similarity</th>
+				<th>Maximum</th>
+				<th>Norm Dist</th>
+				<th>Norm Sum</th>
+				<th>Go</th>
+				<th>Die</th>
 			</tr>
 		</thead>
-		<tbody>
-			{% for task in tasks %}
-				<tr>
-					<td>{{ task.content }}</td>
-					<td>{{ task.date_created.date() }}</td>
-					<td>
-						<a href="/delete/{{task.id}}">Delete</a>
-						<br>
-						<a href="/update/{{task.id}}">Update</a>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
+			<tbody>
+				{% for result in results %}
+					<tr>
+						<td>{{ result.method_name }}</td>
+						<td>{{ result.distance }}</td>
+						<td>{{ result.similarity }}</td>
+						<td>{{ result.maximum }}</td>
+						<td>{{ result.norm_dist }}</td>
+						<td>{{ result.norm_sum }}</td>
+						<td>
+							<a href="/viewtexts/{{result.id}}">Go</a>
+						</td>
+						<td>
+							<a href="/delete/{{result.id}}">Die</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		
 	</table>
 	{% endif %}
 
@@ -47,9 +58,42 @@
 			</div>
 			<br>
 			<br>
-			<input type="submit" value="Calculate!">
+			<div class="dropdown">
+			  <button class="dropbtn">Choose an algorithm</button>
+			  	<select name="option" class="dropdown-content">
+			  	<option value="Jaro">Jaro</option>
+			    <option value="Hamming">Hamming</option>
+			    <option value="Levenshtein">Levenshtein</option>
+				</select>
+			  </div>
+			</div>
+			<br>
+			<div class="submit-button">
+				<input id="calculate" type="submit" value="Calculate!">
+			</div>
 		</div>
 	</form>
 	
 </div>
 {% endblock %}
+
+
+<!-- 
+	<script type="text/javascript">
+		function sendToPage() {
+
+			document.querySelector(".inline-text-area1").value="hellooo";
+		}
+
+		function httpGetAsync(theUrl, callback)
+		{
+		    var xmlHttp = new XMLHttpRequest();
+		    xmlHttp.onreadystatechange = function() { 
+		        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+		            callback(xmlHttp.responseText);
+		    }
+		    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+		    xmlHttp.send(null);
+		}
+	</script>
+	<button onclick="sendToPage()">Go to VT</button> -->

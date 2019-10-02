@@ -3,7 +3,7 @@ html {
     background-size: cover;
     height: 100%;
     width: 100%;
-	background: linear-gradient(-30deg, rgba(150,123,182,0.75) 0%, rgba(199,182,220,0.75) 15%, rgba(199,182,220,0.75) 85%, rgba(150,123,182,0.75) 100%)
+	background: linear-gradient(90deg, rgba(150,123,182,0.75) 0%, rgba(199,182,220,0.75) 10%, rgba(199,182,220,0.75) 90%, rgba(150,123,182,0.75) 100%)
 }
 
 h1 {
@@ -24,6 +24,7 @@ body {
 table {
 	margin: 0 auto;
 	border-collapse: collapse;
+  background-color: rgba(255,255,255,0.7);
 	width: 72.5%;
 }
 
@@ -38,27 +39,136 @@ th {
 	height: 30px;
 }
 
-.inline-div {
-	display: inline-block;
+textarea {
+	background: rgba(255, 255, 255, 0.7);
 }
 
-/*.inline-text-area {
-    resize: none;
-}*/
+
+/*
+
+
+.fixed_header td {
+  border: 1px solid #aaa;
+  text-align: center;
+  padding: 5px;
+}
+
+.fixed_header th {
+  border: 1px solid #aaa;
+  height: 30px;
+}
 
 textarea {
-	background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+
+
+.fixed_header {
+    text-align: center;
+    width: 1000px;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody {
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 100px;
+}
+
+.fixed_header thead tr {
+   display: block;
+} 
+
+
+*/
+
+#calculate {
+  background-color: rgb(200,173,232);
+  text-align: center;
+  width: 120px;
+  padding: 2px 8px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 14px;
+}
+
+.back-button {
+  background-color: rgb(100,73,132);
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  margin: auto;
 }
 
 .content {
-	margin: auto;
-	width: 100%;
-	height: 100%;
-	font-size: 14pt;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  font-size: 14pt;
+}
+
+.dropbtn {
+  background-color: rgb(100,73,132);
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 150px;
+  box-shadow: 0px 8px 16px 0px rgba(100,73,132,0.2);
+  z-index: 1;
+}
+
+.dropdown-content option {
+  color: black;
+  padding: 4px 8px;
+  font-size: 14px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: rgb(210,183,242);}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: rgb(110,83,142);}
+
+.inline-div {
+	display: inline-block;
 }
 
 .form {
     margin-top: 20px;
     margin: auto;
     width: 100%;
+}
+
+.submit-button {
+  text-align: center; 
+}
+
+.textbox {
+  word-wrap: break-word;
+  width: 300px;
+  height: 100px;
+  padding: 10px;
+  border: 8px groove black;
+  border-radius: 2px;
+  overflow-y:auto;
 }
