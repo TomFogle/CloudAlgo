@@ -6,24 +6,24 @@
 
 {% block body %}
 <div class="content">
-	<h1>Compare two input strings</h1>
-	<h4><i>Plug in your own python comparator – coming soon</i></h4>
+	<h1>String Compare</h1>
 	{% if results|length < 1 %}
 		<h4>Compare your texts below!</h4>
 	{% else %}
-	<table class="fixed_header">
-		<thead>
-			<tr>
-				<th>Method Name</th>
-				<th>Distance</th>
-				<th>Similarity</th>
-				<th>Maximum</th>
-				<th>Norm Dist</th>
-				<th>Norm Sum</th>
-				<th>Go</th>
-				<th>Die</th>
-			</tr>
-		</thead>
+	<div class="scrolly-div">
+		<table class="fixed-header">
+			<thead>
+				<tr>
+					<th>Method Name</th>
+					<th>Distance</th>
+					<th>Similarity</th>
+					<th>Maximum</th>
+					<th>Norm Dist</th>
+					<th>Norm Sum</th>
+					<th>Go</th>
+					<th>Die</th>
+				</tr>
+			</thead>
 			<tbody>
 				{% for result in results %}
 					<tr>
@@ -42,19 +42,67 @@
 					</tr>
 				{% endfor %}
 			</tbody>
-		
-	</table>
+			
+		</table>
+	</div>
 	{% endif %}
+
+	<script> 
+	function downloadCSV(csv, filename) {
+	    var csvFile;
+	    var downloadLink;
+
+	    // CSV file
+	    csvFile = new Blob([csv], {type: "text/csv"});
+
+	    // Download link
+	    downloadLink = document.createElement("a");
+
+	    // File name
+	    downloadLink.download = filename;
+
+	    // Create a link to the file
+	    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+	    // Hide download link
+	    downloadLink.style.display = "none";
+
+	    // Add the link to DOM
+	    document.body.appendChild(downloadLink);
+
+	    // Click download link
+	    downloadLink.click();
+	}
+
+	function exportTableToCSV(filename) {
+	    var csv = [];
+	    var rows = document.querySelectorAll("table tr");
+	    
+	    for (var i = 0; i < rows.length; i++) {
+	        var row = [], cols = rows[i].querySelectorAll("td, th");
+	        
+	        for (var j = 0; j < cols.length; j++) 
+	            row.push(cols[j].innerText);
+	        
+	        csv.push(row.join(","));        
+	    }
+
+	    // Download CSV file
+	    downloadCSV(csv.join("\n"), filename);
+	}
+	</script>
+	
+	<button id="csv-button" onclick="exportTableToCSV('JarHamLevComp.csv')">Download CSV</button>
 
 	<form class="form" action="/" method="POST">
 		<div style='text-align: center;'>
 			<div class="inline-div">
 				<p style='text-align: center;'>Text 1</p>
-				<textarea rows="25" cols="60" type="text" name="input-text1" class="inline-text-area1"></textarea>
+				<textarea rows="20" cols="60" type="text" name="input-text1" class="inline-textarea"></textarea>
 			</div>
 			<div class="inline-div">
 				<p style='text-align: center;'>Text 2</p>
-				<textarea rows="25" cols="60" type="text" name="input-text2" id="inline-text-area2"></textarea>
+				<textarea cols="60" type="text" name="input-text2" id="inline-textarea"></textarea>
 			</div>
 			<br>
 			<br>
@@ -76,24 +124,3 @@
 	
 </div>
 {% endblock %}
-
-
-<!-- 
-	<script type="text/javascript">
-		function sendToPage() {
-
-			document.querySelector(".inline-text-area1").value="hellooo";
-		}
-
-		function httpGetAsync(theUrl, callback)
-		{
-		    var xmlHttp = new XMLHttpRequest();
-		    xmlHttp.onreadystatechange = function() { 
-		        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-		            callback(xmlHttp.responseText);
-		    }
-		    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-		    xmlHttp.send(null);
-		}
-	</script>
-	<button onclick="sendToPage()">Go to VT</button> -->
