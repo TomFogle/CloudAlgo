@@ -1,6 +1,6 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, Response, render_template, url_for, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import textdistance
+import textdistance, csv
 
 # reminder to self to launch env: source env/bin/activate
 
@@ -76,6 +76,32 @@ def index():
 	else:
 		results = Todo.query.order_by(Todo.method_name).all()
 		return render_template('index.html', results=results)
+
+
+@app.route('/gettexts')
+def gettexts():
+	data = Todo.query.all()
+
+	# with open('JarHamLevComp.csv', 'w') as out:
+	# 	writer = csv.writer(out)
+	# 	writer.writerow(['Method Name', 'Distance', 'Similarity', 'Maximum', 'Norm Dist', 'Norm Sum', 'Text1', 'Text2'])
+	# 	writer.writerows(data)
+
+	csv = 'Method Name, Distance, Similarity, Maximum, Norm Dist, Norm Sum, Text1, Text2'
+	for dat in data:
+		csv += "\n" +\
+				dat.method_name + "," +\
+				dat.distance + "," +\
+				dat.similarity + "," +\
+				dat.maximum + "," +\
+				dat.norm_dist + "," +\
+				dat.norm_sum + "," +\
+				dat.text1 + "," +\
+				dat.text2
+	return Response(
+		csv,
+		mimetype="text/csv",
+		headers={"Content-disposition":"attachment; filename=JarHamLevComp.csv"})
 
 
 @app.route('/viewtexts/<int:id>', methods=['POST', 'GET'])
