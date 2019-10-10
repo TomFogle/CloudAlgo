@@ -11,10 +11,10 @@ resource "aws_vpc" "ghost" {
 
 resource "aws_subnet" "ghost" {
   count = 2
-
-  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
-  cidr_block        = "10.0.${count.index}.0/24"
   vpc_id            = "${aws_vpc.ghost.id}"
+  cidr_block        = "10.0.${count.index}.0/24"
+  map_public_ip_on_launch = true
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
 
   tags = "${
     map(

@@ -87,11 +87,6 @@ data "aws_ami" "eks-worker" {
   owners      = ["602401143452"] # Amazon EKS AMI Account ID
 }
 
-# EKS currently documents this required userdata for EKS worker nodes to
-# properly configure Kubernetes applications on the EC2 instance.
-# We implement a Terraform local here to simplify Base64 encoding this
-# information into the AutoScaling Launch Configuration.
-# More information: https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html
 locals {
   ghost-node-userdata = <<USERDATA
 #!/bin/bash
@@ -104,7 +99,7 @@ resource "aws_launch_configuration" "ghost" {
   associate_public_ip_address = true
   iam_instance_profile        = "${aws_iam_instance_profile.ghost-node.name}"
   image_id                    = "${data.aws_ami.eks-worker.id}"
-  instance_type               = "m4.large"
+  instance_type               = "t2.micro"
   name_prefix                 = "terraform-eks-ghost"
   security_groups             = ["${aws_security_group.ghost-node.id}"]
   user_data_base64            = "${base64encode(local.ghost-node-userdata)}"
@@ -115,9 +110,9 @@ resource "aws_launch_configuration" "ghost" {
 }
 
 resource "aws_autoscaling_group" "ghost" {
-  desired_capacity     = 2
+  desired_capacity     = 3
   launch_configuration = "${aws_launch_configuration.ghost.id}"
-  max_size             = 2
+  max_size             = 4
   min_size             = 1
   name                 = "terraform-eks-ghost"
   vpc_zone_identifier  = ["${aws_subnet.ghost.*.id}"]

@@ -76,7 +76,7 @@ resource "aws_security_group_rule" "ghost-cluster-ingress-node-https" {
 }
 
 resource "aws_security_group_rule" "ghost-cluster-ingress-workstation-https" {
-  cidr_blocks       = ["192.168.128.76/32"]
+  cidr_blocks       = ["192.168.128.76/32"] #192.168.1.152
   description       = "Allow workstation to communicate with the cluster API Server"
   from_port         = 443
   protocol          = "tcp"
