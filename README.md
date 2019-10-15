@@ -1,12 +1,11 @@
-# DataGhost
+#DataGhost
+
+###Overview
 Autoscaling API service to plug and play texts and text comparison methods.
 
-Uses Flask-RESTful API with python to allow users multiple options to compare texts.
+###Breakdown
+The API portion of this project is the start of a platform where users can select from a number of similarity comparison methods to compare two texts. Will add an additional endpoint to accept requests from other APIs to compare batches of their own text.
 
-Boots up EKS cluster using Terraform and deploys text comparison app. App can be substituted with a different image.
+The infrastructure is based in AWS EKS, with an autoscaling cluster that deploys my dockerized API and is provisioned in Terraform. App can be substituted with a different image.
 
-Can be pulled from dockerhub with `docker pull dataghost/comptext`
-
-
-
-–– Full CLI Instructions coming ––
+API can be pulled from dockerhub with `docker pull dataghost/comptext`
