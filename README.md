@@ -12,17 +12,17 @@ API can be pulled from dockerhub with `docker pull dataghost/comptext`
 
 ### Commands once structure and IAM account is set up
 
-terraform refresh
-terraform plan
-terraform apply
-// copy outputted server and certificate to corresponding sections in kubeconfig
-terraform output config_map_aws_auth > config_map_aws_auth.yaml
-kubectl apply -f config_map_aws_auth.yaml
-kubectl create deployment comptext --image=dataghost/comptext:latest
-kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80
-kubectl get svc --all-namespaces
-kubectl get pods --all-namespaces
-kubectl logs comptext-685c84fd7f-*****
-kubectl delete deployment comptext
-kubectl delete svc comptext
+terraform refresh<br />
+terraform plan<br />
+terraform apply<br />
+// copy outputted server and certificate to corresponding sections in kubeconfig<br />
+terraform output config_map_aws_auth > config_map_aws_auth.yaml<br />
+kubectl apply -f config_map_aws_auth.yaml<br />
+kubectl create deployment comptext --image=dataghost/comptext:latest<br />
+kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80<br />
+kubectl get svc --all-namespaces<br />
+kubectl get pods --all-namespaces<br />
+kubectl logs comptext-685c84fd7f-*****<br />
+kubectl delete deployment comptext<br />
+kubectl delete svc comptext<br />
 terraform destroy
