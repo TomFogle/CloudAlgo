@@ -10,6 +10,13 @@ The infrastructure is based in AWS EKS, with an autoscaling cluster that deploys
 
 API can be pulled from dockerhub with `docker pull dataghost/comptext`
 
+### Note before running commands
+
+You must have an IAM account to use. If your workstation's default IAM is the one you want to use, the generated outputs will automatically use your IAM. Otherwise you will have to change the IAM in ~/.kube/config to the one you want.<br />
+You need to install kubectl in order to execute commands and check on your cluster.<br />
+You need to have Docker installed in order to do any real work with the apps you will be deploying. If your API is not on Docker, you will have to specify where the location of your image/web app.<br />
+You can replace the image I pulled for your own, as long as it is wrapped in nginx or some WSGI to serve up your app.
+
 ### Commands once structure and IAM account is set up
 
 terraform refresh<br />
