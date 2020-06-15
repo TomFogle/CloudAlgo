@@ -78,4 +78,11 @@ kubectl delete deployment comptext
 kubectl delete svc comptext
 terraform destroy
 ```
+<br /><br />
+Bringing the cluster up and down can take around 15 minutes, even with just a few nodes. If it takes longer than 25 minutes to do destroy for less than a dozen nodes, log into your AWS console and make sure it's not stuck in a loop of dependencies. This odd case happened to me when I closed my laptop one time before the destroy completed and AWS skipped a beat and didn't bring down a part of my cluster that needed to be brought down before the rest.
+<br /><br />
+This should be extremely rare, but it's nonetheless worthwhile to note that sometimes checking ont he cluster from the command line isn't enough.
 
+<br /><br />
+For presentation slides, you can click below.<br />
+https://docs.google.com/presentation/d/1UYUlEUb0akfNeBoU_Gbyl-aABCaBPyaN5_FYBClNVUk/edit?usp=sharing
