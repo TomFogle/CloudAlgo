@@ -28,16 +28,22 @@ You can replace the image I pulled for your own, as long as it is wrapped in ngi
 ### Commands once structure and IAM account is set up
 
 -- start up cluster --<br />
-terraform refresh<br />
+```
+terraform refresh
 terraform plan<br />
-terraform apply<br /><br />
-// copy outputted server and certificate to corresponding sections in kubeconfig //<br /><br />
+terraform apply
+```<br /><br />
+copy outputted server and certificate to corresponding sections in kubeconfig<br /><br />
 -- apply cluster config --<br />
+```
 terraform output config_map_aws_auth > config_map_aws_auth.yaml<br />
-kubectl apply -f config_map_aws_auth.yaml<br /><br />
+kubectl apply -f config_map_aws_auth.yaml
+```<br /><br />
 -- deploy your app -> choose a different image name here if you wish to deploy a different app --<br />
+```
 kubectl create deployment comptext --image=dataghost/comptext:latest<br />
-kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80<br /><br />
+kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80
+```<br /><br />
 -- check on deployment --<br />
 kubectl get svc --all-namespaces<br />
 kubectl get pods --all-namespaces<br />
