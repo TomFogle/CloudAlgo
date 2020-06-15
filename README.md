@@ -27,15 +27,15 @@ You can replace the image I pulled for your own, as long as it is wrapped in ngi
 
 ### Commands once structure and IAM account is set up
 
--- start up cluster --<br />
+1) -- start up cluster --<br />
 ```terraform
 terraform refresh
 terraform plan
 terraform apply
 ```
 
-copy outputted server and certificate to corresponding sections in kubeconfig<br /><br />
--- apply cluster config --<br />
+2) copy outputted server and certificate to corresponding sections in kubeconfig<br /><br />
+3) -- apply cluster config --<br />
 
 ```terraform
 terraform output config_map_aws_auth > config_map_aws_auth.yaml
@@ -43,7 +43,7 @@ kubectl apply -f config_map_aws_auth.yaml
 ```
 
 <br />
--- deploy your app -> choose a different image name here if you wish to deploy a different app --<br />
+4) -- deploy your app -> choose a different image name here if you wish to deploy a different app --<br />
 
 ```terraform
 kubectl create deployment comptext --image=dataghost/comptext:latest
@@ -51,7 +51,7 @@ kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80
 ```
 
 <br />
--- check on deployment --<br />
+5) -- check on deployment --<br />
 
 ```terraform
 kubectl get svc --all-namespaces
@@ -60,7 +60,7 @@ kubectl logs comptext-685c84fd7f-*****
 ```
 
 <br />
--- delete deployment and bring down cluster --<br />
+6) -- delete deployment and bring down cluster --<br />
 
 ```terraform
 kubectl delete deployment comptext
