@@ -33,30 +33,39 @@ terraform refresh
 terraform plan
 terraform apply
 ```
+
 <br />
 copy outputted server and certificate to corresponding sections in kubeconfig<br />
 -- apply cluster config --<br />
+
 ```terraform
 terraform output config_map_aws_auth > config_map_aws_auth.yaml
 kubectl apply -f config_map_aws_auth.yaml
 ```
+
 <br />
 -- deploy your app -> choose a different image name here if you wish to deploy a different app --<br />
+
 ```terraform
 kubectl create deployment comptext --image=dataghost/comptext:latest
 kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80
 ```
+
 <br />
 -- check on deployment --<br />
+
 ```terraform
 kubectl get svc --all-namespaces
 kubectl get pods --all-namespaces
 kubectl logs comptext-685c84fd7f-*****
 ```
+
 <br />
 -- delete deployment and bring down cluster --<br />
+
 ```terraform
 kubectl delete deployment comptext
 kubectl delete svc comptext
 terraform destroy
 ```
+
