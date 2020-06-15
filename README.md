@@ -38,9 +38,14 @@ terraform apply
 
 <br />
 
-2) copy outputted server and certificate to corresponding sections in kubeconfig
+2) -- copy outputted server and certificate to corresponding sections in kubeconfig --
+```bash
+echo {copy pasted certificate here} >> {your kubeconfig directory}
+```
 
-<br /><br />
+Note that you may need to use `sudo`
+
+<br />
 
 3) -- apply cluster config --
 ```terraform
