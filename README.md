@@ -34,8 +34,7 @@ terraform plan
 terraform apply
 ```
 
-<br />
-copy outputted server and certificate to corresponding sections in kubeconfig<br />
+copy outputted server and certificate to corresponding sections in kubeconfig<br /><br />
 -- apply cluster config --<br />
 
 ```terraform
