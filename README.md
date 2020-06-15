@@ -85,4 +85,4 @@ This should be extremely rare, but it's nonetheless worthwhile to note that some
 
 <br /><br />
 For presentation slides, you can click below.<br />
-https://docs.google.com/presentation/d/1UYUlEUb0akfNeBoU_Gbyl-aABCaBPyaN5_FYBClNVUk/edit?usp=sharing
+https://docs.google.com/presentation/d/1-F9BeUOTK2ETgZq1EfIo2YUjpse3YKTYV7ECmF8RDrw/edit?usp=sharing
