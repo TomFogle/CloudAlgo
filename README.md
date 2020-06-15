@@ -30,9 +30,6 @@ You can replace the image I pulled for your own, as long as it is wrapped in ngi
 <br />
 
 1) -- start up cluster --
-
-<br />
-
 ```terraform
 terraform refresh
 terraform plan
@@ -46,9 +43,6 @@ terraform apply
 <br /><br />
 
 3) -- apply cluster config --
-
-<br />
-
 ```terraform
 terraform output config_map_aws_auth > config_map_aws_auth.yaml
 kubectl apply -f config_map_aws_auth.yaml
@@ -57,9 +51,6 @@ kubectl apply -f config_map_aws_auth.yaml
 <br />
 
 4) -- deploy your app -> choose a different image name here if you wish to deploy a different app --
-
-<br />
-
 ```terraform
 kubectl create deployment comptext --image=dataghost/comptext:latest
 kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80
@@ -68,9 +59,6 @@ kubectl expose deployment comptext --type=LoadBalancer --name=comptext --port=80
 <br />
 
 5) -- check on deployment --
-
-<br />
-
 ```terraform
 kubectl get svc --all-namespaces
 kubectl get pods --all-namespaces
@@ -80,9 +68,6 @@ kubectl logs comptext-685c84fd7f-*****
 <br />
 
 6) -- delete deployment and bring down cluster --
-
-<br />
-
 ```terraform
 kubectl delete deployment comptext
 kubectl delete svc comptext
